@@ -60,18 +60,25 @@ import org.sireum._
 
 @record class GroupPhase {
 
-  var gps: Map[GroupName.Type, Set[Score]] = Map.empty ++ ISZ((GroupName.A, CreateSetFromSeq(ISZ(Team.Brazil, Team.Norway, Team.Morocco, Team.Scotland))),
-    (GroupName.B, CreateSetFromSeq(ISZ(Team.Italy, Team.Chile, Team.Austria, Team.Cameroon))),
-    (GroupName.C, CreateSetFromSeq(ISZ(Team.France, Team.Denmark, Team.SouthAfrica, Team.SaudiArabia))),
-    (GroupName.D, CreateSetFromSeq(ISZ(Team.Nigeria, Team.Paraguay, Team.Spain, Team.Bulgaria))),
-    (GroupName.E, CreateSetFromSeq(ISZ(Team.Holland, Team.Mexico, Team.Belgium, Team.SouthKorea))),
-    (GroupName.F, CreateSetFromSeq(ISZ(Team.Germany, Team.Yugoslavia, Team.Iran, Team.UnitedStates))),
-    (GroupName.G, CreateSetFromSeq(ISZ(Team.Rumania, Team.England, Team.Colombia, Team.Tunisia))),
-    (GroupName.H, CreateSetFromSeq(ISZ(Team.Argentina, Team.Croatia, Team.Jamaica, Team.Japan))))
+  var gps: Map[GroupName.Type, Set[Score]] =
+    Map.empty ++ ISZ((GroupName.A, sc_init(CreateSetFromSeq(ISZ(Team.Brazil, Team.Norway, Team.Morocco, Team.Scotland)))),
+    (GroupName.B, sc_init(CreateSetFromSeq(ISZ(Team.Italy, Team.Chile, Team.Austria, Team.Cameroon)))),
+    (GroupName.C, sc_init(CreateSetFromSeq(ISZ(Team.France, Team.Denmark, Team.SouthAfrica, Team.SaudiArabia)))),
+    (GroupName.D,  sc_init(CreateSetFromSeq(ISZ(Team.Nigeria, Team.Paraguay, Team.Spain, Team.Bulgaria)))),
+    (GroupName.E,  sc_init(CreateSetFromSeq(ISZ(Team.Holland, Team.Mexico, Team.Belgium, Team.SouthKorea)))),
+    (GroupName.F,  sc_init(CreateSetFromSeq(ISZ(Team.Germany, Team.Yugoslavia, Team.Iran, Team.UnitedStates)))),
+    (GroupName.G,  sc_init(CreateSetFromSeq(ISZ(Team.Rumania, Team.England, Team.Colombia, Team.Tunisia)))),
+    (GroupName.H,  sc_init(CreateSetFromSeq(ISZ(Team.Argentina, Team.Croatia, Team.Jamaica, Team.Japan)))))
   //inv forall gp in set rng gps &
   //      (card gp = 4 and
   //       forall sc in set gp & sc.won + sc.lost + sc.drawn <= 3)
 
+
+  def sc_init (ts: Set[Team.Type]):Set[Score] ={
+    var scores : Set[Score] = Set.empty
+    ts.elements.foreach(t=> scores = scores + new Score(t, 0, 0, 0,0))
+    return scores
+  }
 
   @pure def clear_winner(scs: Set[Score]): B = {
     var maxScore: Z = 0
@@ -111,19 +118,21 @@ import org.sireum._
 
 
   def Win(wt: Team.Type, wl:Team.Type):Unit={
-    val group = gps.entries.filter(g => g._2.elements.foreach(t => if(t.team.isEqual(wt)) return T)).elements.head
-    gps = gps - group
+    var groupName : GroupName.Type = GroupName.A
+    gps.entries.filter(g => g._2.elements.foreach(t => if(t.team.isEqual(wt)) groupName = g._1))
+    val groupScore = gps.get(groupName)
+    gps = gps.entries.filter(o => o._1 != groupName)
     //Update winning team
-    group._2.elements.filter(o => o.team == wt).map(o => {
+    groupScore.get.elements.filter(o => o.team == wt).map(o => {
       o.points = o.points + 3
       o.won = o.won + 1
     })
     //Update losing team
-    group._2.elements.filter(o => o.team == wt).map(o => {
+    groupScore.get.elements.filter(o => o.team == wt).map(o => {
       o.lost = o.lost + 1
     })
     //Update Groups
-    gps = gps + group
+    gps = gps + MSZ(groupName, groupScore)
   }
 
   def GroupWinner (gp:GroupName.Type):Team.Type= {
@@ -132,12 +141,12 @@ import org.sireum._
     scores.elements.foreach(o => if(o.points> maxPoints){maxPoints = o.points})
     val winners = scores.elements.filter(o => o.points == maxPoints)
     if(winners.size == 1) {
-      return winners(0).team
+      return winners.head.team
     }
     else{
       var maxWins : Z = 0
       winners.elements.foreach(o => if(o.won > maxWins){maxWins = o.won})
-      winners.elements.filter(o => o.won == maxWins).head.team
+      return winners.elements.filter(o => o.won == maxWins).head.team
     }
   }
 
@@ -148,12 +157,12 @@ import org.sireum._
     scores.elements.foreach(o => if(o.points> maxPoints){maxPoints = o.points})
     val winners = scores.elements.filter(o => o.points == maxPoints)
     if(winners.size == 1) {
-      return winners(0).team
+      return winners.head.team
     }
     else{
       var maxWins : Z = 0
       winners.foreach(o => if(o.won > maxWins){maxWins = o.won})
-      winners.filter(o => o.won == maxWins).head.team
+      return winners.filter(o => o.won == maxWins).head.team
     }
 
   }
