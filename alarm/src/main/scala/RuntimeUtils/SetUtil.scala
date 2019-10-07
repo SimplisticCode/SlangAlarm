@@ -17,6 +17,14 @@ public class SetUtil {
     return set.--(setDif.elements)
   }
 
+  def SetDUnion[T](set: Set[Set[T]]):Set[T]={
+
+  }
+
+  def SetDIntersection[T](set: Set[Set[T]]):Set[T]={
+
+  }
+
   def SetIntersect[T](set1: Set[T], set2: Set[T]):Set[T]={
    return set1.intersect(set2)
   }
@@ -30,11 +38,16 @@ public class SetUtil {
   }
 
   def PowerSet[T](set: Set[T]):Set[T]={
-    set.
+    if(set.isEmpty)
+      return set
+    else{
+      val e : T = set.elements.elements.head
+      val t = set - e
+      val pt = PowerSet(t)
+      var fept = Set.empty
+      fept = fept.elements.map(o => fept = fept + pt + e)
+      return Set.empty + pt + fept
+    }
   }
 
-  def CreateSetFromSeq[T](i:ISZ[T]):Set[T]={
-    return Set.empty ++ i
-
-  }
 }

@@ -44,31 +44,40 @@ class MapUtil {
   }
 
   //MapOverride - ask Jason
-  def MapOverride[A, B](map1: Map[A, B], map2: Map[A, B]): Map[A, B]={
+  def MapOverride[A, B](map1: Map[A, B], map2: Map[A, B]): Map[A, B] = {
     var resultMap: Map[A, B] = Map.empty
     val dom1 = Dom(map1)
     val dom2 = Dom(map2)
-    var sameElements : Set[A]= Set.empty
-    dom1.elements.foreach(e => if(dom2.contains(e)) sameElements = sameElements + e)
+    val sameElements: Set[A] = dom1.intersect(dom2)
 
-    if(sameElements.nonEmpty){
+    if (sameElements.nonEmpty) {
       //Override map1 range values with values from map2
-      var map
-      sameElements.elements.foreach(o => if(map1.get(o) != map2.get(o)) isCompatible = F)
+      sameElements.elements.foreach(o => if (map1.get(o) != map2.get(o)) resultMap = resultMap + (o, map2.get(o)))
+      val uniqueMap1 = dom1 -- sameElements.elements
+      val uniqueMap2 = dom2 -- sameElements.elements
+      if(uniqueMap1.nonEmpty){
+        uniqueMap1.elements.foreach(e => resultMap = resultMap + (e, map1.get(e)))
+      }
+      if(uniqueMap2.nonEmpty){
+        uniqueMap2.elements.foreach(e => resultMap = resultMap + (e, map2.get(e)))
+      }
+    } else {
+      resultMap = MUnion(map1, map2)
     }
 
+    return resultMap
   }
 
   def MUnion[A, B](map1: Map[A, B], map2: Map[A, B]): Map[A, B] = {
     val dom1 = Dom(map1)
     val dom2 = Dom(map2)
-    var sameElements : Set[A]= Set.empty
-    dom1.elements.foreach(e => if(dom2.contains(e)) sameElements = sameElements + e)
+    var sameElements: Set[A] = Set.empty
+    dom1.elements.foreach(e => if (dom2.contains(e)) sameElements = sameElements + e)
 
-    if(sameElements.nonEmpty){
+    if (sameElements.nonEmpty) {
       //Make sure the same elements are mapping to the same values
-      var isCompatible : B = T
-      sameElements.elements.foreach(o => if(map1.get(o) != map2.get(o)) isCompatible = F)
+      var isCompatible: B = T
+      sameElements.elements.foreach(o => if (map1.get(o) != map2.get(o)) isCompatible = F)
       assert(isCompatible, Message("The two maps are not compatible"))
     }
     return map1 + map2
