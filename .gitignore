@@ -1,2 +1,12 @@
 *.class
 *.log
+/project/target/streams/
+/target/streams/
+/.idea/modules/
+/target/scala-2.12/resolution-cache/reports/
+/project/target/
+/target/
+/.idea/libraries/
+/alarm/target/streams/
+/alarm/target/scala-2.12/
+/.idea/
