@@ -1,16 +1,16 @@
-package RuntimeUtils
+// #Sireum
+package playground.RuntimeUtils
 
-import java.lang.Character.Subset
+import org.sireum._
 
-import org.sireum.message.Message
-import org.sireum.{ISZ, Set}
-
-class MapUtil {
+object MapUtil {
   def Dom[A, B](map: Map[A, B]): Set[A] = {
     return map.keySet
   }
 
   def Inverse[A, B](map: Map[A, B]): Map[B, A] = {
+    halt("to do")
+    /*
     val dom = Dom(map)
     var resultMap: Map[B, A] = Map.empty
     dom.elements.foreach(v => if (map.get(v).size != 1) {
@@ -19,32 +19,42 @@ class MapUtil {
       resultMap = resultMap + (map.get(v).head, v)
     })
     return resultMap
+
+     */
   }
 
   def Range[A, B](map: Map[A, B]): Set[B] = {
     var range: Set[B] = Set.empty
-    map.map(f => range = range + f._2)
+    for(m <- map.valueSet.elements){
+      range = range + m
+    }
     return range
   }
 
   def DomRestrictedBy[A, B](map: Map[A, B], set: Set[A]): Map[A, B] = {
-    return map.filterKeys(dom => !set.contains(dom))
+    halt("to do ")
+    //return map.filterKeys(dom => !set.contains(dom))
   }
 
   def DomRestrictedTo[A, B](map: Map[A, B], set: Set[A]): Map[A, B] = {
-    return map.filterKeys(dom => set.contains(dom))
+    halt("to do ")
+    //return map.filterKeys(dom => set.contains(dom))
   }
 
   def RangeRestrictedBy[A, B](map: Map[A, B], set: Set[B]): Map[A, B] = {
-    return map.filter(v => !set.contains(v._2))
+    halt("to do ")
+    //return map.filter(v => !set.contains(v._2))
   }
 
   def RangeRestrictedTo[A, B](map: Map[A, B], set: Set[A]): Map[A, B] = {
-    return map.filter(v => set.contains(v._2))
+    halt("to do ")
+    //return map.filter(v => set.contains(v._2))
   }
 
   //MapOverride - ask Jason
   def MapOverride[A, B](map1: Map[A, B], map2: Map[A, B]): Map[A, B] = {
+    halt("to do ")
+    /*
     var resultMap: Map[A, B] = Map.empty
     val dom1 = Dom(map1)
     val dom2 = Dom(map2)
@@ -66,9 +76,13 @@ class MapUtil {
     }
 
     return resultMap
+
+     */
   }
 
   def MUnion[A, B](map1: Map[A, B], map2: Map[A, B]): Map[A, B] = {
+    halt("to do")
+    /*
     val dom1 = Dom(map1)
     val dom2 = Dom(map2)
     var sameElements: Set[A] = Set.empty
@@ -81,23 +95,30 @@ class MapUtil {
       assert(isCompatible, Message("The two maps are not compatible"))
     }
     return map1 + map2
+
+     */
   }
 
   def Merge[A, B](map1: Set[Map[A, B]]): Map[A, B] = {
+    halt ("tod do")
+    /*
     var resultMap: Map[A, B] = Map.empty
     map1.elements.foreach(m => resultMap = resultMap + m)
     return resultMap
+     */
   }
 
-  def Equal[A, B](map1: Map[A, B], map2: Map[A, B]): B = {
-    return map1.equals(map2)
+  def Equal[A, B](map1: Map[A, B], map2: Map[A, B]): org.sireum.B = {
+    return map1.isEqual(map2)
   }
 
-  def NotEqual[A, B](map1: Map[A, B], map2: Map[A, B]): B = {
-    return !map1.equals(map2)
+  def NotEqual[A, B](map1: Map[A, B], map2: Map[A, B]): org.sireum.B = {
+    return !map1.isEqual(map2)
   }
 
   def Compose[A, B, C](map1: Map[B, C], map2: Map[A, B]): Map[A, C] = {
+    halt("todo")
+    /*
     val domM2 = Dom(map2)
     val rangeM1 = Range(map1)
     //Range of Map1 should be subset of domain of Map2
@@ -107,5 +128,7 @@ class MapUtil {
     map2.foreach(e => resultMap = resultMap + (e._1, map1.get(e._2)))
 
     return resultMap
+
+     */
   }
 }

@@ -1,5 +1,7 @@
 // #Sireum
 
+package playground
+
 import org.sireum._
 //http://overturetool.org/download/examples/VDM++/worldcupPP/index.html
 
@@ -76,7 +78,10 @@ import org.sireum._
 
   def sc_init (ts: Set[Team.Type]):Set[Score] ={
     var scores : Set[Score] = Set.empty
-    ts.elements.foreach(t=> scores = scores + new Score(t, 0, 0, 0,0))
+    //ts.elements.foreach(t=> scores = scores + new Score(t, 0, 0, 0,0))
+    for(t <- ts.elements) {
+      scores = scores + Score(t, 0, 0, 0, 0)
+    }
     return scores
   }
 
@@ -119,7 +124,12 @@ import org.sireum._
 
   def Win(wt: Team.Type, wl:Team.Type):Unit={
     var groupName : GroupName.Type = GroupName.A
-    gps.entries.filter(g => g._2.elements.foreach(t => if(t.team.isEqual(wt)) groupName = g._1))
+
+    //val winningEntries: (GroupName.Type, Set[Score]) = gps.entries.filter(g => g._2.elements.filter((s: Score) => s.team == wt).nonEmpty)
+
+    // .contains((s: Score) => s.team == wt)) //g._2.elements.foreach(t => if(t.team.isEqual(wt)) groupName = g._1))
+
+    /*
     val groupScore = gps.get(groupName)
     gps = gps.entries.filter(o => o._1 != groupName)
     //Update winning team
@@ -127,15 +137,19 @@ import org.sireum._
       o.points = o.points + 3
       o.won = o.won + 1
     })
+
     //Update losing team
     groupScore.get.elements.filter(o => o.team == wt).map(o => {
       o.lost = o.lost + 1
     })
     //Update Groups
     gps = gps + MSZ(groupName, groupScore)
+     */
   }
 
   def GroupWinner (gp:GroupName.Type):Team.Type= {
+    halt("todo")
+    /*
     val scores = gps.get(gp).get
     var maxPoints : Z = 0
     scores.elements.foreach(o => if(o.points> maxPoints){maxPoints = o.points})
@@ -148,9 +162,13 @@ import org.sireum._
       winners.elements.foreach(o => if(o.won > maxWins){maxWins = o.won})
       return winners.elements.filter(o => o.won == maxWins).head.team
     }
+
+     */
   }
 
   def GroupRunnerUp (gp: GroupName.Type):Team.Type ={
+    halt("todo")
+    /*
     val groupWinner = GroupWinner(gp)
     val scores = gps.get(gp).get.elements.filter(tm => tm.team != groupWinner)
     var maxPoints : Z = 0
@@ -165,17 +183,23 @@ import org.sireum._
       return winners.filter(o => o.won == maxWins).head.team
     }
 
+     */
   }
 
 
   def GroupWinners ():Set[Team.Type] = {
+    halt("todo")
+    /*
     var winners : Set[Team.Type] = Set.empty
     gps.entries.foreach(gp => winners + GroupWinner(gp._1))
     return winners
+
+     */
   }
 
   def CreateSetFromSeq[T](i:ISZ[T]):Set[T]={
-    return Set.empty ++ i
+    halt("todo")
+    //return Set.empty ++ i
   }
 
 }

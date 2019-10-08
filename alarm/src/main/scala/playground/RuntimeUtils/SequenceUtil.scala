@@ -1,8 +1,9 @@
-package RuntimeUtils
+package playground.RuntimeUtils
 
 import org.sireum.{ISZ, Set, Z}
 
-public class SequenceUtil {
+class SequenceUtil {
+  /*
   def Head[T](seq: Seq[T]):T={
     return seq.head
   }
@@ -53,4 +54,6 @@ public class SequenceUtil {
   def Reverse[T](seq: Seq[T]): Seq[T]={
     return seq.reverse
   }
+
+   */
 }

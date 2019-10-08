@@ -1,5 +1,7 @@
 // #Sireum
 
+package playground
+
 import org.sireum._
 
 @record class buffers {

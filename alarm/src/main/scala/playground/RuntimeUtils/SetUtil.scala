@@ -1,9 +1,12 @@
-package RuntimeUtils
+// #Sireum
 
-import org.sireum.{B, ISZ, Set}
+package playground.RuntimeUtils
 
-public class SetUtil {
-  def Subset[T](set1: Set[T], set2: Set[T]):B={
+import org.sireum._
+
+object SetUtil {
+  /*
+  def Subset[T](set1: Set[T], set2: Set[T]): B = {
     if(set1.size <= set2.size) return F
     return set1.intersect(set2).size == set2
   }
@@ -49,5 +52,5 @@ public class SetUtil {
       return Set.empty + pt + fept
     }
   }
-
+  */
 }

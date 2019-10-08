@@ -1,4 +1,4 @@
-import Alarm.alarm
+package playground.Alarm
 
 object Demo extends App{
   new alarm().hello()
