@@ -5,28 +5,30 @@ package playground.RuntimeUtils
 import org.sireum._
 
 object SetUtil {
-  /*
+
   def Subset[T](set1: Set[T], set2: Set[T]): B = {
-    if(set1.size <= set2.size) return F
-    return set1.intersect(set2).size == set2
+    if(set1.size < set2.size) {return F}
+    return (set1.intersect(set2).size == set2.size)
   }
 
   def PSubset[T](set1: Set[T], set2: Set[T]):B={
-    if(set1.size < set2.size) return F
-    return set1.intersect(set2).size == set2
+    if(set1.size <= set2.size) {
+      return F
+    }
+    return set1.intersect(set2).size == set2.size
   }
 
   def SetDifference[T](set: Set[T], setDif: Set[T]):Set[T]={
-    return set.--(setDif.elements)
+    return set --(setDif.elements)
   }
 
-  def SetDUnion[T](set: Set[Set[T]]):Set[T]={
+ /* def SetDUnion[T](set: Set[Set[T]]):Set[T]={
 
   }
 
   def SetDIntersection[T](set: Set[Set[T]]):Set[T]={
 
-  }
+  }*/
 
   def SetIntersect[T](set1: Set[T], set2: Set[T]):Set[T]={
    return set1.intersect(set2)
@@ -40,9 +42,11 @@ object SetUtil {
     return set.contains(element)
   }
 
-  def PowerSet[T](set: Set[T]):Set[T]={
+  /*def PowerSet[T](set: Set[T]):Set[T]={
     if(set.isEmpty)
+    {
       return set
+    }
     else{
       val e : T = set.elements.elements.head
       val t = set - e
@@ -51,6 +55,6 @@ object SetUtil {
       fept = fept.elements.map(o => fept = fept + pt + e)
       return Set.empty + pt + fept
     }
-  }
-  */
+  }*/
+
 }

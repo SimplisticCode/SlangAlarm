@@ -10,30 +10,25 @@ object MapUtil {
 
   def Inverse[A, B](map: Map[A, B]): Map[B, A] = {
     halt("to do")
-    /*
+  }
+  /*
     val dom = Dom(map)
     var resultMap: Map[B, A] = Map.empty
-    dom.elements.foreach(v => if (map.get(v).size != 1) {
-      halt("Map can't be inversed because the mapping is not one-to-one")
-    } else {
-      resultMap = resultMap + (map.get(v).head, v)
+    dom.elements.foreach(v => if (map.get(v)) {
+      resultMap = resultMap + (map.get(v), v)
     })
     return resultMap
+    */
 
-     */
-  }
 
   def Range[A, B](map: Map[A, B]): Set[B] = {
-    var range: Set[B] = Set.empty
-    for(m <- map.valueSet.elements){
-      range = range + m
-    }
-    return range
+    return map.valueSet
   }
 
   def DomRestrictedBy[A, B](map: Map[A, B], set: Set[A]): Map[A, B] = {
-    halt("to do ")
-    //return map.filterKeys(dom => !set.contains(dom))
+    val dom : Set[A] = Set.empty ++ Dom(map).elements.filter(d => !set.contains(d))
+
+    return Map.empty ++ map.entries.filter(e => dom.contains(e._1))
   }
 
   def DomRestrictedTo[A, B](map: Map[A, B], set: Set[A]): Map[A, B] = {
@@ -99,14 +94,11 @@ object MapUtil {
      */
   }
 
-  def Merge[A, B](map1: Set[Map[A, B]]): Map[A, B] = {
-    halt ("tod do")
-    /*
+  /*def Merge[A, B](map1: Set[Map[A, B]]): Map[A, B] = {
     var resultMap: Map[A, B] = Map.empty
     map1.elements.foreach(m => resultMap = resultMap + m)
     return resultMap
-     */
-  }
+  }*/
 
   def Equal[A, B](map1: Map[A, B], map2: Map[A, B]): org.sireum.B = {
     return map1.isEqual(map2)
