@@ -115,11 +115,11 @@ object MapUtil {
     return !map1.isEqual(map2)
   }
 
-  def Compose[T,K, L](map1: Map[K,L], map2: Map[T,K]): Map[T, L] = {
+  def Compose[T,K,L](map1: Map[K,L], map2: Map[T,K]): Map[T, L] = {
     val domM1 : Set[K]= Dom(map1)
     val rangeM2 : Set[K]= Range(map2)
-    //Range of Map1 should be subset of domain of Map2
-    assert(SetUtil.Subset(rangeM2, domM1))
+    //Range of Map2 should be subset of domain of Map1
+    assert(SetUtil.Subset(domM1, rangeM2))
 
     var resultMap: Map[T,L] = Map.empty
     for(e <- map2.entries){

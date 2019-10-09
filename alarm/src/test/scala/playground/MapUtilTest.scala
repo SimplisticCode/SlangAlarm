@@ -149,6 +149,20 @@ class MapUtilTest extends FunSuite{
   }
 
   test("Compose"){
+    val franceMap: Map[Team.Type, Team.Type] = Map.empty + (Team.France ~> Team.France)
+    val composedMap = MapUtil.Compose(m1, franceMap)
+    assert(composedMap.size == 1)
+    assert(composedMap.contains(Team.France))
+    assert(composedMap.get(Team.France).get == 9)
+  }
 
+  test("Compose and inverse"){
+    val inversed = MapUtil.Inverse(m2)
+    val composedMap = MapUtil.Compose(m2, inversed)
+    assert(composedMap.size == 4)
+    assert(composedMap.get(1).get == 1)
+    assert(composedMap.get(2).get == 2)
+    assert(composedMap.get(3).get == 3)
+    assert(composedMap.get(4).get == 4)
   }
 }
