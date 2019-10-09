@@ -2,6 +2,7 @@
 package playground.RuntimeUtils
 
 import org.sireum._
+import org.sireum.message.Message
 
 object MapUtil {
   def Dom[A, B](map: Map[A, B]): Set[A] = {
@@ -46,9 +47,9 @@ object MapUtil {
   }
 
   //MapOverride - ask Jason
+  /*
   def MapOverride[A, B](map1: Map[A, B], map2: Map[A, B]): Map[A, B] = {
-    halt("to do ")
-    /*
+
     var resultMap: Map[A, B] = Map.empty
     val dom1 = Dom(map1)
     val dom2 = Dom(map2)
@@ -70,27 +71,22 @@ object MapUtil {
     }
 
     return resultMap
-
-     */
   }
+   */
 
   def MUnion[A, B](map1: Map[A, B], map2: Map[A, B]): Map[A, B] = {
-    halt("to do")
-    /*
     val dom1 = Dom(map1)
     val dom2 = Dom(map2)
     var sameElements: Set[A] = Set.empty
-    dom1.elements.foreach(e => if (dom2.contains(e)) sameElements = sameElements + e)
+    dom1.elements.foreach(e => if (dom2.contains(e)) {sameElements = sameElements + e})
 
     if (sameElements.nonEmpty) {
       //Make sure the same elements are mapping to the same values
       var isCompatible: B = T
-      sameElements.elements.foreach(o => if (map1.get(o) != map2.get(o)) isCompatible = F)
-      assert(isCompatible, Message("The two maps are not compatible"))
+      sameElements.elements.foreach(o => if (map1.get(o) != map2.get(o)) {isCompatible = F})
+      //assert(isCompatible)
     }
     return map1 + map2
-
-     */
   }
 
   /*def Merge[A, B](map1: Set[Map[A, B]]): Map[A, B] = {
@@ -108,18 +104,15 @@ object MapUtil {
   }
 
   def Compose[A, B, C](map1: Map[B, C], map2: Map[A, B]): Map[A, C] = {
-    halt("todo")
-    /*
     val domM2 = Dom(map2)
     val rangeM1 = Range(map1)
     //Range of Map1 should be subset of domain of Map2
     assert(SetUtil.Subset(domM2, rangeM1))
 
     var resultMap: Map[A, C] = Map.empty
-    map2.foreach(e => resultMap = resultMap + (e._1, map1.get(e._2)))
+    //Ask Jason
+    map2.entries.foreach(e => resultMap = resultMap + (e._1, map1.get(e._2)))
 
     return resultMap
-
-     */
   }
 }

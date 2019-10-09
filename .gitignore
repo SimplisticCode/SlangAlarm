@@ -10,3 +10,4 @@
 /alarm/target/streams/
 /alarm/target/scala-2.12/
 /.idea/
+*.cache
