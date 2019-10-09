@@ -15,7 +15,7 @@ import org.sireum._
 
 object Plant {
 
-  def CreateSetFromSeq[T](i:ISZ[T]):Set[T]={
+  @pure def CreateSetFromSeq[T](i:ISZ[T]):Set[T]={
     return Set.empty ++ i
   }
 

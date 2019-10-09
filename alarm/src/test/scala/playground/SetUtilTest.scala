@@ -8,8 +8,8 @@ import playground.RuntimeUtils.{MapUtil, SetUtil}
 class SetUtilTest extends FunSuite{
 
 
-  val s1 = Plant.CreateSetFromSeq(ISZ(Qualification.Chem, Qualification.Bio, Qualification.Mech))
-  val s2 = Plant.CreateSetFromSeq(ISZ(Qualification.Elec, Qualification.Chem))
+  val s1 = SetUtil.CreateSetFromSeq(ISZ(Qualification.Chem, Qualification.Bio, Qualification.Mech))
+  val s2 = SetUtil.CreateSetFromSeq(ISZ(Qualification.Elec, Qualification.Chem))
 
 
   test("Union") {
@@ -33,7 +33,7 @@ class SetUtilTest extends FunSuite{
   }
 
   test("Subset 2") {
-    val s1_subSet = Plant.CreateSetFromSeq(ISZ(Qualification.Chem, Qualification.Bio, Qualification.Mech))
+    val s1_subSet = SetUtil.CreateSetFromSeq(ISZ(Qualification.Chem, Qualification.Bio, Qualification.Mech))
     val isSubset = SetUtil.Subset(s1, s1_subSet)
     assert(isSubset)
     val isPSubset = SetUtil.PSubset(s1, s1_subSet)

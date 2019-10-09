@@ -21,29 +21,28 @@ object MapUtil {
     */
 
 
-  def Range[A, B](map: Map[A, B]): Set[B] = {
+  def Range[T,K](map: Map[T,K]): Set[K] = {
     return map.valueSet
   }
 
-  def DomRestrictedBy[A, B](map: Map[A, B], set: Set[A]): Map[A, B] = {
-    val dom : Set[A] = Set.empty ++ Dom(map).elements.filter(d => !set.contains(d))
-
+  def DomRestrictedBy[T, K](map: Map[T, K], set: Set[T]): Map[T, K] = {
+    val dom : Set[T] = Set.empty ++ Dom(map).elements.filter(d => !set.contains(d))
     return Map.empty ++ map.entries.filter(e => dom.contains(e._1))
   }
 
-  def DomRestrictedTo[A, B](map: Map[A, B], set: Set[A]): Map[A, B] = {
-    halt("to do ")
-    //return map.filterKeys(dom => set.contains(dom))
+  def DomRestrictedTo[T, K](map: Map[T,K], set: Set[T]): Map[T,K] = {
+    val dom : Set[T] = Set.empty ++ Dom(map).elements.filter(d => set.contains(d))
+    return Map.empty ++ map.entries.filter(e => dom.contains(e._1))
   }
 
-  def RangeRestrictedBy[A, B](map: Map[A, B], set: Set[B]): Map[A, B] = {
-    halt("to do ")
-    //return map.filter(v => !set.contains(v._2))
+  def RangeRestrictedBy[T,K](map: Map[T,K], set: Set[K]): Map[T,K] = {
+    val range : Set[K] = Set.empty ++ Range(map).elements.filter(d => !set.contains(d))
+    return Map.empty ++ map.entries.filter(e => range.contains(e._2))
   }
 
-  def RangeRestrictedTo[A, B](map: Map[A, B], set: Set[A]): Map[A, B] = {
-    halt("to do ")
-    //return map.filter(v => set.contains(v._2))
+  def RangeRestrictedTo[T,K](map: Map[T,K], set: Set[K]): Map[T,K] = {
+    val range : Set[K] = Set.empty ++ Range(map).elements.filter(d => set.contains(d))
+    return Map.empty ++ map.entries.filter(e => range.contains(e._2))
   }
 
   //MapOverride - ask Jason
