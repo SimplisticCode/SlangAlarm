@@ -2,7 +2,7 @@ package playground
 
 
 import org.scalatest._
-import org.sireum.{ISZ, Map, Set, Z}
+import org.sireum.{ISZ, Map, Set, Z, enum}
 import playground.Alarm._
 import playground.RuntimeUtils.{MapUtil, SetUtil}
 
@@ -35,10 +35,10 @@ class MapUtilTest extends FunSuite{
     assert(range.size == 2)
   }
 
- /* test("Merge"){
+  test("Merge"){
     val map = MapUtil.Merge(SetUtil.CreateSetFromSeq(ISZ(map1, map2)))
     assert(map.size == 4)
-  }*/
+  }
 
   test("Not Equal"){
     //assertResult(false, MapUtil.Equal(map1, map2))
@@ -59,7 +59,7 @@ class MapUtilTest extends FunSuite{
     assert(mapRestricted.keySet.contains(2))
   }
 
-  test("RangeRestrictedBy"){
+ /* test("RangeRestrictedBy"){
     val set : Set[Expert]= SetUtil.CreateSetFromSeq(ISZ(ex2, ex4))
     val mapRestricted = MapUtil.RangeRestrictedBy(map1, set)
     assert(mapRestricted.size == 1)
@@ -71,7 +71,84 @@ class MapUtilTest extends FunSuite{
     val mapRestricted = MapUtil.RangeRestrictedTo(map1, set)
     assert(mapRestricted.size == 1)
     assert(mapRestricted.valueSet.contains(ex4))
+  }*/
+
+
+
+  val m1 : Map[Team.Type , Z] = Map.empty ++ ISZ((Team.France, 9), (Team.Denmark, 4), (Team.SouthAfrica,2), (Team.SaudiArabia,1))
+  val m2 : Map[Z, Z] = Map.empty ++ ISZ((1, 2), (2, 3), (3,4), (4,1))
+
+  test("Dom Countries"){
+    val dom = MapUtil.Dom(m1)
+    assert(dom.size == 4)
+    assert(dom.contains(Team.SaudiArabia))
+    assert(dom.contains(Team.SouthAfrica))
+    assert(dom.contains(Team.Denmark))
+    assert(dom.contains(Team.France))
   }
 
+  test("Range Points"){
+    val dom = MapUtil.Range(m1)
+    assert(dom.size == 4)
+    assert(dom.contains(1))
+    assert(dom.contains(2))
+    assert(dom.contains(4))
+    assert(dom.contains(9))
+  }
 
+  test("MUnion"){
+    val mapAdd : Map[Team.Type , Z] = Map.empty + (Team.England ~> 3)
+    val result = MapUtil.MUnion(m1, mapAdd)
+    assert(result.size == 5)
+    assert(result.contains(Team.England))
+    assert(result.contains(Team.SaudiArabia))
+    assert(result.contains(Team.SouthAfrica))
+    assert(result.contains(Team.Denmark))
+    assert(result.contains(Team.France))
+  }
+
+  test("Merge Countries"){
+    val map1 : Map[Team.Type , Z] = Map.empty ++ ISZ((Team.France ~> 9),(Team.Spain ~> 4))
+    val map2 : Map[Team.Type , Z] = Map.empty ++ ISZ((Team.France ~> 9), (Team.England ~> 3), (Team.UnitedStates ~> 1))
+    val setOfMaps = SetUtil.CreateSetFromSeq(ISZ(map1, map2))
+    val result = MapUtil.Merge(setOfMaps)
+
+    assert(result.size == 4)
+    assert(result.contains(Team.Spain))
+    assert(result.contains(Team.England))
+    assert(result.contains(Team.UnitedStates))
+    assert(result.contains(Team.France))
+  }
+
+  test("Override"){
+    val mapAdd : Map[Team.Type , Z] = Map.empty ++ ISZ((Team.France ~> 8), (Team.England ~> 4))
+    val result = MapUtil.MapOverride(m1, mapAdd)
+    assert(result.size == 5)
+    assert(result.contains(Team.England))
+    assert(result.contains(Team.SaudiArabia))
+    assert(result.contains(Team.SouthAfrica))
+    assert(result.contains(Team.Denmark))
+    assert(result.contains(Team.France))
+
+    assert(result.get(Team.France).get == 8)
+  }
+
+  test("Inverse Map"){
+    val inversedMap = MapUtil.Inverse(m2)
+    val domInv = MapUtil.Dom(inversedMap)
+    val rangeInv = MapUtil.Range(inversedMap)
+    val domOrg = MapUtil.Dom(m2)
+    val rangeOrg = MapUtil.Range(m2)
+    assert(domInv.equals(rangeOrg))
+    assert(rangeInv.equals(domOrg))
+
+    assert(inversedMap.get(2).get == 1)
+    assert(inversedMap.get(3).get == 2)
+    assert(inversedMap.get(4).get == 3)
+    assert(inversedMap.get(1).get == 4)
+  }
+
+  test("Compose"){
+
+  }
 }

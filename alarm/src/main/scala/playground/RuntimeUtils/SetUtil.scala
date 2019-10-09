@@ -25,17 +25,19 @@ object SetUtil {
     return set --(setDif.elements)
   }
 
-  //How to override set
   def SetDUnion[T](set: Set[Set[T]]):Set[T]={
     var resultSet : Set[T] = set.elements(0)
-    set.elements.forEach(s => resultSet.union(s))
+    for(s <- set.elements){
+      resultSet = resultSet.union(s)
+    }
     return resultSet
   }
 
-  //How to override set
   def SetDIntersection[T](set: Set[Set[T]]):Set[T]={
     var resultSet : Set[T] = set.elements(0)
-    set.elements.forEach(s => resultSet.intersect(s))
+    for(s <- set.elements){
+      resultSet = resultSet.intersect(s)
+    }
     return resultSet
   }
 

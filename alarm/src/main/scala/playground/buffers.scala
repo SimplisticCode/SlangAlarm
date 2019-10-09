@@ -5,11 +5,6 @@ package playground
 import org.sireum._
 
 @record class buffers {
-
-  def hello(): Unit = {
-    println("System is running")
-  }
-
   var b1: Z = 0
   var b2: Z = 0
   var b3: Z = 0
