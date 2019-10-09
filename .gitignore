@@ -12,3 +12,5 @@
 /.idea/
 *.cache
 *.cache
+*.cache
+/project/
