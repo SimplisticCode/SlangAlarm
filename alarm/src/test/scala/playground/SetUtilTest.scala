@@ -65,7 +65,12 @@ class SetUtilTest extends FunSuite{
     assert(!SetUtil.PSubset(s2, s2))
   }
 
-  /*
+  /*test("Powerset"){
+    val set : Set[Z] = SetUtil.CreateSetFromSeq(ISZ(1,2,3))
+    val powerset = SetUtil.PowerSet(set)
+    assert(powerset.size == 9)
+  }
+
   test("DUnion"){
     val vSet1 : Set[Z]= SetUtil.CreateSetFromSeq(ISZ(2,4))
     val vSet2 : Set[Z] = SetUtil.CreateSetFromSeq(ISZ(4,5,6))

@@ -3,6 +3,7 @@
 package playground
 
 import org.sireum._
+import playground.RuntimeUtils.SetUtil
 //http://overturetool.org/download/examples/VDM++/worldcupPP/index.html
 
 
@@ -63,14 +64,14 @@ import org.sireum._
 @record class GroupPhase {
 
   var gps: Map[GroupName.Type, Set[Score]] =
-    Map.empty ++ ISZ((GroupName.A, sc_init(CreateSetFromSeq(ISZ(Team.Brazil, Team.Norway, Team.Morocco, Team.Scotland)))),
-    (GroupName.B, sc_init(CreateSetFromSeq(ISZ(Team.Italy, Team.Chile, Team.Austria, Team.Cameroon)))),
-    (GroupName.C, sc_init(CreateSetFromSeq(ISZ(Team.France, Team.Denmark, Team.SouthAfrica, Team.SaudiArabia)))),
-    (GroupName.D,  sc_init(CreateSetFromSeq(ISZ(Team.Nigeria, Team.Paraguay, Team.Spain, Team.Bulgaria)))),
-    (GroupName.E,  sc_init(CreateSetFromSeq(ISZ(Team.Holland, Team.Mexico, Team.Belgium, Team.SouthKorea)))),
-    (GroupName.F,  sc_init(CreateSetFromSeq(ISZ(Team.Germany, Team.Yugoslavia, Team.Iran, Team.UnitedStates)))),
-    (GroupName.G,  sc_init(CreateSetFromSeq(ISZ(Team.Rumania, Team.England, Team.Colombia, Team.Tunisia)))),
-    (GroupName.H,  sc_init(CreateSetFromSeq(ISZ(Team.Argentina, Team.Croatia, Team.Jamaica, Team.Japan)))))
+    Map.empty ++ ISZ((GroupName.A, sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.Brazil, Team.Norway, Team.Morocco, Team.Scotland)))),
+    (GroupName.B, sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.Italy, Team.Chile, Team.Austria, Team.Cameroon)))),
+    (GroupName.C, sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.France, Team.Denmark, Team.SouthAfrica, Team.SaudiArabia)))),
+    (GroupName.D,  sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.Nigeria, Team.Paraguay, Team.Spain, Team.Bulgaria)))),
+    (GroupName.E,  sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.Holland, Team.Mexico, Team.Belgium, Team.SouthKorea)))),
+    (GroupName.F,  sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.Germany, Team.Yugoslavia, Team.Iran, Team.UnitedStates)))),
+    (GroupName.G,  sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.Rumania, Team.England, Team.Colombia, Team.Tunisia)))),
+    (GroupName.H,  sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.Argentina, Team.Croatia, Team.Jamaica, Team.Japan)))))
   //inv forall gp in set rng gps &
   //      (card gp = 4 and
   //       forall sc in set gp & sc.won + sc.lost + sc.drawn <= 3)
@@ -78,7 +79,6 @@ import org.sireum._
 
   def sc_init (ts: Set[Team.Type]):Set[Score] ={
     var scores : Set[Score] = Set.empty
-    //ts.elements.foreach(t=> scores = scores + new Score(t, 0, 0, 0,0))
     for(t <- ts.elements) {
       scores = scores + Score(t, 0, 0, 0, 0)
     }
@@ -123,84 +123,84 @@ import org.sireum._
 
 
   def Win(wt: Team.Type, wl:Team.Type):Unit={
-    var groupName : GroupName.Type = GroupName.A
+    var groupName : GroupName.Type = gps.entries.filter(o => o._2.elements.filter(t => t.team == wt)).elements.head._1
+    //find groupName - TODO
 
-    //val winningEntries: (GroupName.Type, Set[Score]) = gps.entries.filter(g => g._2.elements.filter((s: Score) => s.team == wt).nonEmpty)
+    var groupScore = gps.get(groupName).get
+    gps = SetUtil.CreateSetFromSeq(gps.entries.filter(o => o._1 != groupName))
+    for(team <- groupScore.elements){
+      //Update winning team
+      if(team.team == wt){
+        groupScore = SetUtil.CreateSetFromSeq(groupScore.elements.filter(o => o.team != team.team))
+        val winningTeam = Score(team.team, team.won + 1, team.drawn, team.lost, team.points + 3)
+        groupScore = groupScore + winningTeam
+      }
 
-    // .contains((s: Score) => s.team == wt)) //g._2.elements.foreach(t => if(t.team.isEqual(wt)) groupName = g._1))
+      //Update losing team
+      if(team.team == wl){
+        groupScore = SetUtil.CreateSetFromSeq(groupScore.elements.filter(o => o.team != team.team))
+        val losingTeam = Score(team.team, team.won, team.drawn, team.lost + 1, team.points)
+        groupScore = groupScore + losingTeam
+      }
+    }
 
-    /*
-    val groupScore = gps.get(groupName)
-    gps = gps.entries.filter(o => o._1 != groupName)
-    //Update winning team
-    groupScore.get.elements.filter(o => o.team == wt).map(o => {
-      o.points = o.points + 3
-      o.won = o.won + 1
-    })
-
-    //Update losing team
-    groupScore.get.elements.filter(o => o.team == wt).map(o => {
-      o.lost = o.lost + 1
-    })
     //Update Groups
     gps = gps + MSZ(groupName, groupScore)
-     */
   }
 
   def GroupWinner (gp:GroupName.Type):Team.Type= {
-    halt("todo")
-    /*
     val scores = gps.get(gp).get
     var maxPoints : Z = 0
-    scores.elements.foreach(o => if(o.points> maxPoints){maxPoints = o.points})
+    for(score <- scores.elements){
+      if(score.points > maxPoints){
+        maxPoints = score.points
+      }
+    }
     val winners = scores.elements.filter(o => o.points == maxPoints)
-    if(winners.size == 1) {
-      return winners.head.team
+    if(winners.size == Z(1)) {
+      return winners.elements.head.team
     }
     else{
       var maxWins : Z = 0
-      winners.elements.foreach(o => if(o.won > maxWins){maxWins = o.won})
+      for(t <- winners.elements){
+        if(t.won > maxWins){
+          maxWins = t.won
+        }
+      }
       return winners.elements.filter(o => o.won == maxWins).head.team
     }
-
-     */
   }
 
   def GroupRunnerUp (gp: GroupName.Type):Team.Type ={
-    halt("todo")
-    /*
     val groupWinner = GroupWinner(gp)
     val scores = gps.get(gp).get.elements.filter(tm => tm.team != groupWinner)
     var maxPoints : Z = 0
-    scores.elements.foreach(o => if(o.points> maxPoints){maxPoints = o.points})
+    for(score <- scores.elements){
+      if(score.points > maxPoints){
+        maxPoints = score.points
+      }
+    }
     val winners = scores.elements.filter(o => o.points == maxPoints)
-    if(winners.size == 1) {
+    if(winners.size == Z(1)) {
       return winners.head.team
     }
     else{
       var maxWins : Z = 0
-      winners.foreach(o => if(o.won > maxWins){maxWins = o.won})
+      for(t <- winners){
+        if(t.won > maxWins){
+          maxWins = t.won
+        }
+      }
       return winners.filter(o => o.won == maxWins).head.team
     }
-
-     */
   }
-
 
   def GroupWinners ():Set[Team.Type] = {
-    halt("todo")
-    /*
     var winners : Set[Team.Type] = Set.empty
-    gps.entries.foreach(gp => winners + GroupWinner(gp._1))
+    for(group <- gps.entries){
+      winners = winners + GroupWinner(group._1)
+    }
     return winners
-
-     */
   }
-
-  def CreateSetFromSeq[T](i:ISZ[T]):Set[T]={
-    halt("todo")
-    //return Set.empty ++ i
-  }
-
 }
 
