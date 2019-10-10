@@ -54,6 +54,7 @@ object SetUtil {
   def InSet[T](element: T, set: Set[T]): B = {
     return set.contains(element)
   }
+
 /*
   def PowerSet[T](set: Set[T]): Set[Set[T]] = {
     def pwr(t: Set[T], ps: Set[Set[T]]): Set[Set[T]] = {

@@ -3,6 +3,7 @@
 package playground.Alarm
 
 import org.sireum._
+import playground.RuntimeUtils.SetUtil
 
 @enum object Qualification {
   'Elec
@@ -14,14 +15,9 @@ import org.sireum._
 @datatype class Period(val time: String)
 
 object Plant {
-
-  @pure def CreateSetFromSeq[T](i:ISZ[T]):Set[T]={
-    return Set.empty ++ i
-  }
-
   @pure def ExpertIsOnDuty(expert: Expert, plant: Plant): Set[Period] = {
     val x: ISZ[Period] = plant.Schedule.map.entries.filter(f  => f._2.contains(expert)).map(m => m._1)
-    return CreateSetFromSeq(x)
+    return SetUtil.CreateSetFromSeq(x)
   }
 }
 
@@ -47,11 +43,6 @@ object Plant {
     }
 
     return unhandledAlarms.isEmpty
-    /*
-    alarms.elements.foreach(a => Schedule.map.entries.foreach(schedule => if(schedule._2.elements.filter(exp => exp.quali.contains(a.qualification)).size == 0) {
-      halt("The plant is not valid because not all the schedules contains experts having the necessary qualifications to handle the alarms")
-      return  F}))
-   */
   }
 
   {
@@ -63,7 +54,15 @@ object Plant {
 
 @datatype class Schedule(val map: Map[Period, Set[Expert]]){
   def invariant():B = {
-    //map.entries.foreach(schedule => if(schedule._2.elements..foreach(exp => exp) return  F))
+    for(sch <- map.entries){
+      for(exp1 <- sch._2.elements){
+        for(exp2 <- sch._2.elements - exp1){
+          if(exp2.expertid == exp1.expertid){
+            return F
+          }
+        }
+      }
+    }
     return T
   }
   {
@@ -90,8 +89,6 @@ object Plant {
   }
 
     @pure def ExpertToPage(alarm: AlarmDescription, period: Period, plant: Plant): Option[Expert]={
-      //plant.Schedule.map.get(period).get.elements.foreach(exp => if(exp.quali.contains(alarm.qualification)) return Some(exp))
-
       plant.Schedule.map.get(period) match {
         case Some(experts) =>
           experts.elements.filter((e: Expert) => e.quali.contains(alarm.qualification)) match {
@@ -108,8 +105,6 @@ object Plant {
 
     @pure def QualificationOK(exs: Set[Expert], qualification: Qualification.Type): B = {
       return exs.elements.filter(e => e.quali.contains(qualification)).nonEmpty
-      //exs.elements.foreach(exp => if (exp.quali.contains(qualification)) return T)
-      //return F
     }
 
       def RunTest(): Set[Period]={
@@ -117,14 +112,14 @@ object Plant {
         val a2: AlarmDescription = AlarmDescription("Tank overflow", Qualification.Chem)
         val ex1 = Expert(1, Set.empty + Qualification.Mech)
         val ex2 = Expert(2, Set.empty + Qualification.Elec)
-        val ex3 = Expert(3, Plant.CreateSetFromSeq(ISZ(Qualification.Chem, Qualification.Bio, Qualification.Mech)))
-        val ex4 = Expert(4,  Plant.CreateSetFromSeq(ISZ(Qualification.Elec, Qualification.Chem)))
+        val ex3 = Expert(3, SetUtil.CreateSetFromSeq(ISZ(Qualification.Chem, Qualification.Bio, Qualification.Mech)))
+        val ex4 = Expert(4,  SetUtil.CreateSetFromSeq(ISZ(Qualification.Elec, Qualification.Chem)))
         val p1 = Period("Monday day")
         val p2 = Period("Monday night")
         val m: Map[Period, Set[Expert]] = Map.empty ++ ISZ(
-          (p1, Plant.CreateSetFromSeq(ISZ(ex1, ex4))),
-          (p2, Plant.CreateSetFromSeq(ISZ(ex2, ex3))))
-        val plant = Plant(Schedule(m), Plant.CreateSetFromSeq(ISZ(a1,a2)))
+          (p1, SetUtil.CreateSetFromSeq(ISZ(ex1, ex4))),
+          (p2, SetUtil.CreateSetFromSeq(ISZ(ex2, ex3))))
+        val plant = Plant(Schedule(m), SetUtil.CreateSetFromSeq(ISZ(a1,a2)))
 
         return Plant.ExpertIsOnDuty(ex1, plant)
       }

@@ -59,7 +59,8 @@ class MapUtilTest extends FunSuite{
     assert(mapRestricted.keySet.contains(2))
   }
 
- /* test("RangeRestrictedBy"){
+  /*
+ test("RangeRestrictedBy"){
     val set : Set[Expert]= SetUtil.CreateSetFromSeq(ISZ(ex2, ex4))
     val mapRestricted = MapUtil.RangeRestrictedBy(map1, set)
     assert(mapRestricted.size == 1)

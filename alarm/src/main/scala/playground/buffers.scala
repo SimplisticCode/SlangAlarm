@@ -15,8 +15,13 @@ import org.sireum._
     }
   }
 
-
   def Add(x: Z): Unit = {
+    /*"""l{
+       pre x <= 5 & b1 + b2 + b3 + x <= 40
+       post b1 + b2 + b3 = b1~ + b2~ + b3~ + x;
+      }
+      """
+     */
     if (x + b1 < b2) {
       b1 = b1 + x
     } else if (b2 + x <= b3) {
@@ -26,10 +31,12 @@ import org.sireum._
     }
   }
 
-  //pre x <= 5 and b1 + b2 + b3 + x <= 40
-  //post b1 + b2 + b3 = b1~ + b2~ + b3~ + x;
-
   def Remove(x: Z): Unit = {
+    /*"""l{
+     pre x <= 5 & x <= b1 + b2 + b3
+     post b1 +b2 + b3 + x = b1 ~ +b2 ~ +b3 ~;
+    }"""
+   */
     if (x + b2 <= b3) {
       b3 = b3 - x
     } else if (x + b1 <= b2) {
@@ -39,8 +46,7 @@ import org.sireum._
       b1 = b1 - x
     }
   }
-   //pre x <= 5 and x <= b1 + b2 + b3
-}  //post b1 +b2 + b3 + x = b1 ~ +b2 ~ +b3 ~;
+}
 
 
 

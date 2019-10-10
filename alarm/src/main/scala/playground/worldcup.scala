@@ -1,5 +1,4 @@
 // #Sireum
-
 package playground
 
 import org.sireum._
@@ -113,7 +112,7 @@ import playground.RuntimeUtils.SetUtil
       val teamsWithSameScore = scs.elements.filter(score => score.points == maxScore).elements
       var wins:Z = 0
       for(team <- teamsWithSameScore){
-        if(team.won ==wins){
+        if(team.won == wins){
           return F
         }
       }
@@ -123,11 +122,17 @@ import playground.RuntimeUtils.SetUtil
 
 
   def Win(wt: Team.Type, wl:Team.Type):Unit={
-    var groupName : GroupName.Type = gps.entries.filter(o => o._2.elements.filter(t => t.team == wt)).elements.head._1
-    //find groupName - TODO
+    var groupName : GroupName.Type = GroupName.A
+    for(group <- gps.entries){
+      for(score <- group._2.elements){
+        if(score.team == wt){
+          groupName = group._1
+        }
+      }
+    }
 
     var groupScore = gps.get(groupName).get
-    gps = SetUtil.CreateSetFromSeq(gps.entries.filter(o => o._1 != groupName))
+    gps = Map.empty ++ gps.entries.filter(o => o._1 != groupName)
     for(team <- groupScore.elements){
       //Update winning team
       if(team.team == wt){
@@ -145,7 +150,7 @@ import playground.RuntimeUtils.SetUtil
     }
 
     //Update Groups
-    gps = gps + MSZ(groupName, groupScore)
+    gps = gps + (groupName ~> groupScore)
   }
 
   def GroupWinner (gp:GroupName.Type):Team.Type= {
@@ -181,7 +186,7 @@ import playground.RuntimeUtils.SetUtil
       }
     }
     val winners = scores.elements.filter(o => o.points == maxPoints)
-    if(winners.size == Z(1)) {
+    if(Z(winners.size) == 1) {
       return winners.head.team
     }
     else{
