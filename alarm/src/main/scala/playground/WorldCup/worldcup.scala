@@ -1,5 +1,5 @@
 // #Sireum
-package playground
+package playground.WorldCup
 
 import org.sireum._
 import playground.RuntimeUtils.SetUtil

@@ -3,6 +3,7 @@ package playground
 
 import org.scalatest._
 import org.sireum.{ISZ, Set, Z}
+import playground.Buffer.buffers
 import playground.RuntimeUtils.SetUtil
 
 class UseBufferTest extends FunSuite{

@@ -4,6 +4,7 @@ import org.scalatest._
 import org.sireum.{ISZ, Map, Set, Z}
 import playground.Alarm._
 import playground.RuntimeUtils.{MapUtil, SetUtil}
+import playground.WorldCup.Team
 
 class SetUtilTest extends FunSuite{
 

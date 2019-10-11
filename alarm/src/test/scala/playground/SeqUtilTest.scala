@@ -1,8 +1,9 @@
 package playground
 
 import org.scalatest._
-import org.sireum.{ISZ, Z, Map}
+import org.sireum.{ISZ, Map, Z}
 import playground.RuntimeUtils.{SeqUtil, SetUtil}
+import playground.WorldCup.Team
 
 class SeqUtilTest extends FunSuite {
   val l1 = ISZ(3, 1, 4, 1, 5, 9, 2)
