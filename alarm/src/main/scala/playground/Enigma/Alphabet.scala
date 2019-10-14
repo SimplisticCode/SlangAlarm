@@ -1,5 +1,5 @@
 // #Sireum
-
+/*
 package playground.Enigma
 
 import org.sireum._
@@ -48,3 +48,4 @@ import playground.RuntimeUtils.{MapUtil, SeqUtil, SetUtil, Utils}
     return Shift(pidx, 1)
   }
 }
+*/

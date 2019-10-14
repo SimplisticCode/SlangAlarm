@@ -3,41 +3,30 @@ package playground
 
 import org.scalatest._
 import org.sireum.{ISZ, Map, Set}
-import playground.Alarm._
 import playground.RuntimeUtils.SetUtil
+import playground.WorldCup.{GroupName, GroupPhase, Team}
 
 class WorldCupTest extends FunSuite{
-  val a1: AlarmDescription = AlarmDescription("Mechanical fault", Qualification.Mech)
-  val a2: AlarmDescription = AlarmDescription("Tank overflow", Qualification.Chem)
-
-  val ex1 = Expert(1, Set.empty + Qualification.Mech)
-  val ex2 = Expert(2, Set.empty + Qualification.Elec)
-  val ex3 = Expert(3, SetUtil.CreateSetFromSeq(ISZ(Qualification.Chem, Qualification.Bio, Qualification.Mech)))
-  val ex4 = Expert(4,  SetUtil.CreateSetFromSeq(ISZ(Qualification.Elec, Qualification.Chem)))
-
-  val p1 = Period("Monday day")
-  val p2 = Period("Monday night")
+  val gp : GroupPhase = GroupPhase()
 
 
-  test("Valid plant") {
-    val m: Map[Period, Set[Expert]] = Map.empty ++ ISZ(
-      (p1, SetUtil.CreateSetFromSeq(ISZ(ex1, ex4))),
-      (p2, SetUtil.CreateSetFromSeq(ISZ(ex2, ex3))))
+  test("Win test"){
+    val t1 : Team.Type = Team.Argentina
+    val t2 : Team.Type = Team.Croatia
+    val t3 : Team.Type = Team.Jamaica
+    val t4 : Team.Type = Team.Japan
 
-    val plant = Plant(Schedule(m), SetUtil.CreateSetFromSeq(ISZ(a1,a2)))
+    gp.Win(t1, t4)
+    gp.Win(t2, t3)
+    gp.Win(t2, t4)
+    gp.Win(t1, t3)
+    gp.Win(t1, t2)
+    gp.Win(t3, t4)
 
-    // when is expert on duty?
-    val expertsSchedule = Plant.ExpertIsOnDuty(ex1, plant)
-    println(s"${ex1} is on duty ${expertsSchedule}")
-  }
-
-  test("Invalid plant"){
-    val m: Map[Period, Set[Expert]] = Map.empty ++ ISZ(
-      (p1, SetUtil.CreateSetFromSeq(ISZ(ex4))),
-      (p2, SetUtil.CreateSetFromSeq(ISZ(ex2, ex3))))
-
-    val plant = Plant(Schedule(m), SetUtil.CreateSetFromSeq(ISZ(a1, a2)))
-
+    val groupWinner = gp.GroupWinner(GroupName.H)
+    val runnerUp = gp.GroupRunnerUp(GroupName.H)
+    assert(t1 == groupWinner)
+    assert(t2 == runnerUp)
   }
 
 

@@ -1,5 +1,5 @@
 // #Sireum
-
+/*
 package playground.Enigma
 
 import org.sireum._
@@ -61,3 +61,4 @@ import playground.RuntimeUtils.{MapUtil, SeqUtil, SetUtil, Utils}
 
   //pre ppos in set alph.GetIndices();
 }
+*/
