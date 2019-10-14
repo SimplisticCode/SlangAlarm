@@ -12,13 +12,13 @@ import playground.RuntimeUtils.{MapUtil, SeqUtil, SetUtil, Utils}
 
   @pure def RotorInv(platch_pos: Z, pconfig: Map[Z, Z], palph: Alphabet): B = {
     val ainds = palph.GetIndices()
-    return (SetUtil.InSet(latch_pos, ainds)) & (MapUtil.Dom(pconfig) == ainds) & (MapUtil.Range(pconfig) == ainds) & (MapUtil.Range(pconfig).union(MapUtil.Dom(pconfig).size < MapUtil.Dom(pconfig).size))
+    return (SetUtil.InSet(latch_pos, ainds)) & (MapUtil.Dom(pconfig) == ainds) & (MapUtil.Range(pconfig) == ainds) & (MapUtil.Range(pconfig).union(MapUtil.Dom(pconfig)).size < MapUtil.Dom(pconfig).size)
   }
 
   def Rotor(psp: Z, plp: Z, pa: Alphabet, pcfg: Map[Z, Z]): Rotor = {
     latch_pos = pa.Shift(plp, psp - 1)
     config = Map.empty
-    for (i <- MapUtil.Dom(pcfg)) {
+    for (i <- MapUtil.Dom(pcfg).elements) {
       config = config + (pa.Shift(i, psp - 1) ~> pa.Shift(pcfg.get(i).get, psp - 1))
     }
     return this
@@ -40,7 +40,7 @@ import playground.RuntimeUtils.{MapUtil, SeqUtil, SetUtil, Utils}
     // shifting all indices one position
     val config1 : Map[Z,Z] = config.clone()
     config = Map.empty
-    for (i <- MapUtil.Dom(config1)) {
+    for (i <- MapUtil.Dom(config1).elements) {
       config = config + (alph.Shift(i) ~> alph.Shift(config1.get(i).get))
     }
 

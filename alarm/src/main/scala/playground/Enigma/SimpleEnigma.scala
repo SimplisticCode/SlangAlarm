@@ -12,8 +12,8 @@ import playground.RuntimeUtils.{MapUtil, SetUtil}
 
   def SimpleEnigma(): SimpleEnigma = {
     val cp = Component()
-    val a = Alphabet()
-    alph =  a.Alphabet(ISZ('A','D','C','D'))
+    //TODO find out how to do constructor in Slang - ASK Jason
+    val a = Alphabet(ISZ('A','D','C','D'))
 
 
     return this

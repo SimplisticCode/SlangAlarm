@@ -6,20 +6,15 @@ import org.sireum._
 import org.sireum.ops.ISZOps
 import playground.RuntimeUtils.{MapUtil, SeqUtil, SetUtil, Utils}
 
-@record class Alphabet {
+@record class Alphabet(val alpha: ISZ[C]) {
 
-  var alpha: ISZ[C] = ISZ()
+  {
+    AlphabetInv(alpha)
+  }
 
   @pure def AlphabetInv(palph: ISZ[C]): B = {
     return Utils.Mod(SeqUtil.Len(palph), 2) == 0 & SeqUtil.Len(palph) == SeqUtil.Elems(palph).size
   }
-
-  def Alphabet(pa: ISZ[C]): Alphabet = {
-    alpha = pa
-    return this
-  }
-
-  //  pre AlphabetInv(pa);
 
   def GetChar(pidx: Z): C = {
     assert(SetUtil.InSet(pidx, SeqUtil.Inds(alpha)))

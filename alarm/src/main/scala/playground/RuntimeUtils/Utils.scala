@@ -25,4 +25,32 @@ object Utils {
     return Mod(x, y)
   }
 
+  def is_real[T](exp: T): B={
+    return exp.isInstanceOf[R]
+  }
+
+  def is_rat[T](exp: T): B={
+    return exp.isInstanceOf[R]
+  }
+
+  def is_nat[T](exp: T): B={
+    return exp.isInstanceOf[Z]
+  }
+
+  def is_nat1[T](exp: T): B={
+    return exp.isInstanceOf[Z] & exp.asInstanceOf[Z] > 0
+  }
+
+  def is_int[T](exp: T): B={
+    return exp.isInstanceOf[Z]
+  }
+
+  def is_char[T](exp: T): B={
+    return exp.isInstanceOf[C]
+  }
+
+  def is_bool[T](exp: T): B ={
+    return exp.isInstanceOf[B]
+  }
+
 }
