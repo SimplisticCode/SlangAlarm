@@ -5,6 +5,13 @@ package playground.RuntimeUtils
 import org.sireum._
 
 object SetUtil {
+  def Equals[T](set1: Set[T], set2: Set[T]): B = {
+    if (set1.size != set2.size | !(Subset(set1, set2) & Subset(set2, set1))) {
+      return F
+    }
+    return T
+  }
+
   def CreateSetFromSeq[T](i: ISZ[T]): Set[T] = {
     return Set.empty ++ i
   }
@@ -55,20 +62,20 @@ object SetUtil {
     return set.contains(element)
   }
 
-/*
-  def PowerSet[T](set: Set[T]): Set[Set[T]] = {
-    def pwr(t: Set[T], ps: Set[Set[T]]): Set[Set[T]] = {
-      if (t.isEmpty) {
-        return ps
+  /*
+    def PowerSet[T](set: Set[T]): Set[Set[T]] = {
+      def pwr(t: Set[T], ps: Set[Set[T]]): Set[Set[T]] = {
+        if (t.isEmpty) {
+          return ps
+        }
+        else {
+          val head = t.elements.elements.head
+          val tail = Set.empty ++ (t.elements - head)
+          val ps1 = ps ++ ps.elements.map(m => m.elements.elements + head)
+          return pwr(tail, ps1)
+        }
       }
-      else {
-        val head = t.elements.elements.head
-        val tail = Set.empty ++ (t.elements - head)
-        val ps1 = ps ++ ps.elements.map(m => m.elements.elements + head)
-        return pwr(tail, ps1)
-      }
-    }
-    //return pwr(set, Set(Set.empty[T]))
+      //return pwr(set, Set(Set.empty[T]))
 
-  }*/
+    }*/
 }

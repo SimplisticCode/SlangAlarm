@@ -3,7 +3,7 @@
 package playground.Alarm
 
 import org.sireum._
-import playground.RuntimeUtils.SetUtil
+import playground.RuntimeUtils.{MapUtil, SetUtil}
 
 @enum object Qualification {
   'Elec
@@ -16,8 +16,7 @@ import playground.RuntimeUtils.SetUtil
 
 object Plant {
   @pure def ExpertIsOnDuty(expert: Expert, plant: Plant): Set[Period] = {
-    val x: ISZ[Period] = plant.Schedule.map.entries.filter(f  => f._2.contains(expert)).map(m => m._1)
-    return SetUtil.CreateSetFromSeq(x)
+    return SetUtil.CreateSetFromSeq(for(e <- MapUtil.Dom(plant.Schedule.map).elements.filter(peri=> plant.Schedule.map.get(peri).get.contains(expert))) yield e)
   }
 }
 

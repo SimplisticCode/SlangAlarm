@@ -3,8 +3,7 @@
 package playground.Enigma
 
 import org.sireum._
-import org.sireum.ops.ISZOps
-import playground.RuntimeUtils.{MapUtil, SeqUtil, SetUtil, Utils}
+import playground.RuntimeUtils.{MapUtil, SetUtil}
 
 @record class Rotor extends Configuration {
   var latch_pos: Z = 0

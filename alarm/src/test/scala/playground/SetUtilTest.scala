@@ -1,7 +1,7 @@
 package playground
 
 import org.scalatest._
-import org.sireum.{ISZ, Map, Set, Z}
+import org.sireum.{C, ISZ, Map, Set, Z}
 import playground.Alarm._
 import playground.RuntimeUtils.{MapUtil, SetUtil}
 import playground.WorldCup.Team
@@ -65,6 +65,8 @@ class SetUtilTest extends FunSuite{
   test("ProperSubset"){
     assert(!SetUtil.PSubset(s2, s2))
   }
+
+
 
   /*test("Powerset"){
     val set : Set[Z] = SetUtil.CreateSetFromSeq(ISZ(1,2,3))

@@ -4,7 +4,7 @@ package playground.Enigma
 
 import org.sireum._
 import org.sireum.ops.ISZOps
-import playground.RuntimeUtils.{MapUtil, SeqUtil, SetUtil, Utils}
+import playground.RuntimeUtils.{SeqUtil, SetUtil, Utils}
 
 @record class Alphabet(val alpha: ISZ[C]) {
 

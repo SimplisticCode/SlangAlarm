@@ -5,10 +5,9 @@ package playground.Enigma
 import org.sireum._
 import playground.RuntimeUtils.SetUtil
 
-@record class Component {
-
-  var next: Option[Component] = None()
-  var alph: Alphabet = None()
+@msig trait Component {
+  def next():Option[Component]
+  def alph():Alphabet
 
   @pure def Successors(): Set[Component] = {
     next match {
@@ -20,6 +19,7 @@ import playground.RuntimeUtils.SetUtil
   def SetNext(component: Component): Unit = {
     assert(next == None())
     assert(!SetUtil.InSet(this, component.Successors()))
+    //Send Robby a mail about this
     next = Some(component)
   }
 
@@ -27,11 +27,11 @@ import playground.RuntimeUtils.SetUtil
   //    self not in set pcom.Successors();
 
 
-  def Substitute(x: Z): Z = {}
+  def Substitute(x: Z): Z
 
-  def Rotate(): Unit = {}
+  def Rotate(): Unit
 
-  def Rotate(x: Z): Unit = {}
+  def Rotate(x: Z): Unit 
 
 }
 */

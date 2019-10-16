@@ -34,7 +34,7 @@ object Utils {
   }
 
   def is_nat[T](exp: T): B={
-    return exp.isInstanceOf[Z]
+    return exp.isInstanceOf[Z] & exp.asInstanceOf[Z] >= 0
   }
 
   def is_nat1[T](exp: T): B={
@@ -53,4 +53,8 @@ object Utils {
     return exp.isInstanceOf[B]
   }
 
+ /* def is_token[T](exp: T): B ={
+    return exp.isInstanceOf[Token]
+  }
+*/
 }
