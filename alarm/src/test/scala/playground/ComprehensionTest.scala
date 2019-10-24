@@ -1,9 +1,8 @@
 package playground
 
 import org.scalatest._
-import org.sireum.ops.ISZOps
-import org.sireum.{C, ISZ, Set, Z}
-import playground.RuntimeUtils.{MapUtil, SeqUtil, SetUtil}
+import org.sireum._
+import playground.RuntimeUtils.{SetUtil, Utils}
 
 class ComprehensionTest extends FunSuite{
 
@@ -46,23 +45,23 @@ class ComprehensionTest extends FunSuite{
 
   test("Map comprehensions with condition and mapping"){
     val numbers = Set.empty ++ ISZ(1,2,3,4,5)
-    val result  = Map.empty ++ (Set.empty ++ ISZ(1,2,3,4,5)).elements.filter(o => o % 2 == 0).map(i =>(i, i*2)).elements// for comprehension
-    val expected = Map.empty ++ ISZ((2,4),(4,8)).elements
+    val result  = Map.empty ++ (Set.empty ++ ISZ(1,2,3,4,5)).elements.filter(o => o % 2 == 0).map(i =>(i, i*2))// for comprehension
+    val expected = Map.empty ++ ISZ((2,4),(4,8))
     assert(result == expected)
     println(result)
   }
 
   test("Map comprehensions with condition and mapping 1"){
     val numbers = Set.empty ++ ISZ(1,2,3)
-    val result  = Map.empty ++ (for (i <- numbers.elements.filter(o => 1 == 1)) yield (i, i*i)).elements// for comprehension
-    val expected = Map.empty ++ ISZ((1,1),(2,4),(3,9)).elements
+    val result  = Map.empty ++ (for (i <- numbers.elements.filter(o => 1 == 1)) yield (i, i*i))
+    val expected = Map.empty ++ ISZ((1,1),(2,4),(3,9))
     assert(result == expected)
     println(result)
   }
 
   test("Map comprehensions with condition and mapping 2"){
-    val result  = Map.empty ++ (for (x <- SetUtil.CreateSetFromSeq(ISZ(1, 2, 3)).elements.filter(x=>1.equals(1))) yield (x, x * x)).elements
-    val expected = Map.empty ++ ISZ((1,1),(2,4),(3,9)).elements
+    val result  = Map.empty ++ (for (x <- SetUtil.CreateSetFromSeq(ISZ(1, 2, 3)).elements.filter(x=>1.equals(1))) yield (x, x * x))
+    val expected = Map.empty ++ ISZ((1,1),(2,4),(3,9))
     assert(result == expected)
     println(result)
   }
@@ -72,8 +71,26 @@ class ComprehensionTest extends FunSuite{
 
 
   test("a"){
-    val s : ISZ[Z] =ISZ(4, 5, 6)
-      var a : Set[Z] = Set.empty ++ (for (e <- SeqUtil.Elems(s).elements.filter(x => 1.equals(1)).map(x => x)) yield e)
-
+      val x : Set[Z] = Set.empty ++ (SetUtil.CreateSetFromSeq(ISZ(2, 3, 6, 4, 1, 10, 23, 24, 63)).elements.filter(x => x < 10 & Utils.Mod(x,2).equals(0)).map(x => x))
+      println(x)
     }
+
+  //{x+y+z |-> z+y+x | x,y in set {1,2,3}, z in set {5} & true}
+
+
+  test("Multiple bindings"){
+    val expected : Map[Z,Z] = Map.empty ++ ISZ((7,7),(8,8),(9,9),(10,10),(11,11))
+    val s : ISZ[Z] =ISZ(1,2,3)
+    var result : Map[Z,Z] = Map.empty
+    for(x <- s){
+      for(y <- s){
+        val z = 5
+        if(T){
+          result = result + ((x+y+z) ~> (x+y+z))
+        }
+      }
+    }
+    assert(result == expected)
+    println(result)
+  }
 }

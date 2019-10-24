@@ -16,12 +16,14 @@ import playground.RuntimeUtils.{MapUtil, SetUtil}
 
 object Plant {
   @pure def ExpertIsOnDuty(expert: Expert, plant: Plant): Set[Period] = {
-    return SetUtil.CreateSetFromSeq(for(e <- MapUtil.Dom(plant.Schedule.map).elements.filter(peri=> plant.Schedule.map.get(peri).get.contains(expert))) yield e)
+    return SetUtil.CreateSetFromSeq(MapUtil.Dom(plant.Schedule.map).elements.filter(peri=> plant.Schedule.map.get(peri).get.contains(expert)))
   }
 }
 
 @datatype class Plant(val Schedule: Schedule, val alarms: Set[AlarmDescription]){
 
+  //Invariant(invariant(Schedule, alarms))
+  //@spec
   def invariant(): B = {
     // need to ensure every period has at least one expert on hand in order to handle each type of alarm
 
@@ -81,6 +83,12 @@ object Plant {
   }
 
   @pure def NumberOfExperts(period: Period, plant: Plant): Z = {
+    Contract(
+      Requires(
+        SetUtil.InSet(period, MapUtil.Dom(plant.Schedule.map))
+      )
+    )
+
     plant.Schedule.map.get(period) match {
       case Some(experts) => return experts.size
       case _ => return z"0"
@@ -88,6 +96,17 @@ object Plant {
   }
 
     @pure def ExpertToPage(alarm: AlarmDescription, period: Period, plant: Plant): Option[Expert]={
+      Contract(
+        Requires(
+          SetUtil.InSet(period, MapUtil.Dom(plant.Schedule.map)),
+          SetUtil.InSet(alarm, plant.alarms)
+        ),
+        Ensures(
+          SetUtil.InSet(Res, plant.Schedule.map.get(period).get),
+          SetUtil.InSet(alarm.qualification, Res[Set[Qualification.Type]])
+        )
+      )
+
       plant.Schedule.map.get(period) match {
         case Some(experts) =>
           experts.elements.filter((e: Expert) => e.quali.contains(alarm.qualification)) match {

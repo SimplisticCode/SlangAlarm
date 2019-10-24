@@ -3,6 +3,7 @@ package playground.WorldCup
 
 import org.sireum._
 import playground.RuntimeUtils.SetUtil
+import playground.RuntimeUtils.MapUtil
 //http://overturetool.org/download/examples/VDM++/worldcupPP/index.html
 
 
@@ -122,6 +123,10 @@ import playground.RuntimeUtils.SetUtil
 
 
   def Win(wt: Team.Type, wl:Team.Type):Unit={
+    Contract(
+      Requires(
+      )
+    )
     var groupName : GroupName.Type = GroupName.A
     for(group <- gps.entries){
       for(score <- group._2.elements){
@@ -130,6 +135,7 @@ import playground.RuntimeUtils.SetUtil
         }
       }
     }
+
 
     var groupScore = gps.get(groupName).get
     gps = Map.empty ++ gps.entries.filter(o => o._1 != groupName)
@@ -154,6 +160,11 @@ import playground.RuntimeUtils.SetUtil
   }
 
   def GroupWinner (gp:GroupName.Type):Team.Type= {
+    Contract(
+      Requires(
+        SetUtil.InSet(gp, MapUtil.Dom(gps))
+      )
+    )
     val scores = gps.get(gp).get
     var maxPoints : Z = 0
     for(score <- scores.elements){
@@ -177,6 +188,11 @@ import playground.RuntimeUtils.SetUtil
   }
 
   def GroupRunnerUp (gp: GroupName.Type):Team.Type ={
+    Contract(
+      Requires(
+        SetUtil.InSet(gp, MapUtil.Dom(gps))
+      )
+    )
     val groupWinner = GroupWinner(gp)
     val scores = gps.get(gp).get.elements.filter(tm => tm.team != groupWinner)
     var maxPoints : Z = 0
