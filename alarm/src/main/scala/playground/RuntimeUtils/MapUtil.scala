@@ -13,6 +13,7 @@ object MapUtil {
     val dom: Set[T] = Dom(map)
     val range: Set[K] = Range(map)
     assert(dom.size == range.size)
+    //All()
     var resultMap : Map[K, T] = Map.empty
     for (e <- dom.elements) {
       resultMap = resultMap + (map.get(e).get ~> e)

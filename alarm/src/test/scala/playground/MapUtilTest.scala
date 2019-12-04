@@ -30,6 +30,9 @@ class MapUtilTest extends FunSuite{
   }
 
   test("Range"){
+    val p1: Map[Z, Z] = Map.empty ++ ISZ((1,2),(2,3))
+    println(p1)
+
     val range = MapUtil.Range(map1)
     assert(range.contains(SetUtil.CreateSetFromSeq(ISZ(ex1, ex4))))
     assert(range.contains(SetUtil.CreateSetFromSeq(ISZ(ex2, ex3))))

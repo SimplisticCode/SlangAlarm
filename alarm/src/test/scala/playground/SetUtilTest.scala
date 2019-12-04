@@ -64,6 +64,8 @@ class SetUtilTest extends FunSuite{
 
   test("ProperSubset"){
     assert(!SetUtil.PSubset(s2, s2))
+    val s = Set.empty ++ ISZ(1,2,3,4,5,6,7,8,9,10).filter(x => x % 2 == 0).map(x => x * x)
+    println(s)
   }
 
 
