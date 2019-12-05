@@ -1,0 +1,8 @@
+class Event
+
+operations 
+  public execute : System ==> Test`TestResult
+  execute(system) ==
+    is subclass responsibility;
+
+end Event

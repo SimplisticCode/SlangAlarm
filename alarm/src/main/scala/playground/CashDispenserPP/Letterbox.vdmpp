@@ -1,0 +1,16 @@
+class Letterbox
+
+instance variables
+  statements : seq of Letter := [];
+
+operations
+  public PostStatement : Letter ==> ()
+  PostStatement(letter) ==
+    statements := statements ^ [letter];
+
+  pure public GetLastStatement : () ==> Letter
+  GetLastStatement() ==
+    return statements(len statements)
+  pre statements <> [];
+
+end Letterbox

@@ -1,0 +1,19 @@
+class Clock
+
+types
+  public Date = seq of char;
+
+instance variables
+
+  date : Date := "";
+
+operations
+  public SetDate : Date ==> ()
+  SetDate(d) ==
+    date := d;
+
+  pure public GetDate : () ==> Date
+  GetDate() ==
+    return date;
+
+end Clock

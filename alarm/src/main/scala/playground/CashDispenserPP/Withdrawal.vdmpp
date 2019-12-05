@@ -1,0 +1,23 @@
+class Withdrawal is subclass of Event
+
+instance variables
+
+  tillid : System`TillId;
+  amount : nat;
+
+operations
+  public Init : System`TillId * nat ==> Withdrawal
+  Init(t, a) ==
+    (tillid := t;
+     amount := a;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    let till = sys.GetTill(tillid)
+    in
+      if till.CardValidated()
+      then till.MakeWithdrawal(amount)
+      else return false;
+
+end Withdrawal

@@ -11,7 +11,7 @@ import org.sireum._
   def Pace(tr: Trace, aperi: Z, vdel: Z): Trace = {
     var trace: ISZ[Option[Event.Type]] = ISZ(None())
     for (i <- tr.Trace.indices) {
-      if ((i % aperi == (vdel + 1)) && (tr(i) != Event.V)) {
+      if ((i % aperi == (vdel + 1)) && (tr.Trace(i).get != Event.V)) {
         trace = trace ++ ISZ(Some(Event.V))
       } else {
         trace = trace ++ ISZ(None())
@@ -19,5 +19,4 @@ import org.sireum._
     }
     return Trace(trace)
   }
-
 }

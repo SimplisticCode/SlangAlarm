@@ -1,0 +1,21 @@
+class InsertCard is subclass of Event
+
+instance variables
+
+  tillid : System`TillId;
+  mycard : Card;
+
+operations
+
+  public Init : System`TillId * Card ==> InsertCard
+  Init(tid, c) ==
+    (tillid := tid;
+     mycard := c;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    (sys.GetTill(tillid).InsertCard(mycard);
+     return true);
+
+end InsertCard

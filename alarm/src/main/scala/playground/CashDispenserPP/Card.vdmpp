@@ -1,0 +1,32 @@
+class Card
+
+types
+  public CardId = nat;
+  public Code = nat;
+  public PinCode = nat;
+
+instance variables
+  code : Code;
+  cardId : CardId;
+  accountId : Account`AccountId;
+
+operations
+  public Card : Code * CardId * Account`AccountId ==> Card
+  Card(c,cid,a) ==
+    (code := c;
+     cardId := cid;
+     accountId := a);
+
+  pure public GetCode : () ==> Code
+  GetCode() ==
+    return code;
+
+  pure public GetAccountId : () ==> Account`AccountId
+  GetAccountId() ==
+    return accountId;
+
+  pure public GetCardId : () ==> CardId
+  GetCardId() ==
+    return cardId;
+
+end Card

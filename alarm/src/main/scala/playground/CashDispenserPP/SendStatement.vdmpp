@@ -1,0 +1,21 @@
+class SendStatement is subclass of Event
+
+instance variables
+
+  tillid : System`TillId;
+
+operations
+  public Init : System`TillId ==> SendStatement
+  Init(tid) ==
+    (tillid := tid;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    let till = sys.GetTill(tillid)
+    in
+      if till.CardValidated()
+      then till.RequestStatement()
+      else return false;
+
+end SendStatement

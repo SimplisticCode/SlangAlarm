@@ -1,0 +1,24 @@
+class ReturnCard is subclass of Event
+
+instance variables
+
+  tillid : System`TillId;
+
+operations
+
+  public Init : System`TillId ==> ReturnCard
+  Init(tid) ==
+    (tillid := tid;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    (let till = sys.GetTill(tillid)
+     in
+       if till.CardInside()
+       then till.ReturnCard()
+       else return false;
+     return true);
+
+end ReturnCard
+             
