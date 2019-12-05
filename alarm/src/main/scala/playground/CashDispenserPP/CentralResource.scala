@@ -1,7 +1,6 @@
 // #Sireum
 
-package CashDispenserPP
-
+package playground.CashDispenserPP
 import org.sireum._
 
 @record class CentralResource(val Address: String, val Name: String) {
@@ -76,7 +75,7 @@ import org.sireum._
       Requires(!accounts.contains(accId))
     )
     accounts = accounts + (accId ~> acc)
-    numberOfTries = numberOfTries //Todo
+    numberOfTries = numberOfTries ++ acc.GetCardIds().elements.filter(x => x == x).map(cid => (cid, 0))
   }
 
 

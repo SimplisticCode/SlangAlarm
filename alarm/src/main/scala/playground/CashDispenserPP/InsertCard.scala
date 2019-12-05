@@ -1,7 +1,6 @@
 // #Sireum
 
-package CashDispenserPP
-
+package playground.CashDispenserPP
 import org.sireum._;
 
 @record
@@ -15,7 +14,7 @@ class InsertCard extends Event {
     return this
   }
 
-  def execute(sys: CashDispenserPP.System): B = {
+  def execute(sys: System): B = {
     sys.GetTill(tillid).InsertCard(myCard.get)
     return T
   }

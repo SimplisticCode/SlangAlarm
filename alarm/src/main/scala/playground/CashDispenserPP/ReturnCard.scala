@@ -1,7 +1,6 @@
 // #Sireum
 
-package CashDispenserPP
-
+package playground.CashDispenserPP
 import org.sireum._;
 
 @record class ReturnCard extends Event {
@@ -12,7 +11,7 @@ import org.sireum._;
     return this
   }
 
-  def execute(sys: CashDispenserPP.System): B = {
+  def execute(sys: System): B = {
     val till: Till = sys.GetTill(tillid)
     if (till.CardInside()) {
       till.ReturnCard()

@@ -1,6 +1,6 @@
 // #Sireum
 
-package CashDispenserPP
+package playground.CashDispenserPP
 
 import org.sireum._
 import org.sireum.ops.ISZOps
@@ -15,8 +15,8 @@ import org.sireum.ops.ISZOps
   val c6: Card = Card(123461, 6, 5)
   val c7: Card = Card(123462, 7, 5)
   val cards: Set[Card] = Set.empty ++ ISZ(c1, c2, c3, c4, c5, c6, c7)
-  val resource: CentralResource = CentralResource("addr","res")
-  val tills: Map[Z, Till] = Map.empty ++ ISZ((1, Till(resource)), (2, Till(resource)), (3, Till(resource)))
+  val resource: CentralResource = CentralResource("addr", "res")
+  var tills: Map[Z, Till] = Map.empty ++ ISZ((1, Till(resource)), (2, Till(resource)), (3, Till(resource)))
 
   var clock: Clock = Clock()
   var letterbox: Letterbox = Letterbox()
@@ -29,18 +29,18 @@ import org.sireum.ops.ISZOps
     return resource
   }
 
-  def Initialize():System={
+  def Initialize(): System = {
     clock.SetDate("150999")
-    val peter = CardHolder().Create("Peter", "Granvej")
-    val paul = CardHolder().Create("Paul Mukherjee", "Rugaardsvej 47")
-    val sten = CardHolder().Create("Sten Agerholm", "Teisensvej ??")
-    val kim = CardHolder().Create("Kim Sunesen", "??")
-    val CSK = CardHolder().Create("CSK", "Forskerparken 10A")
-    val pglacc1 = Account().Create(Map.empty + (1 ~> peter),5000)
-    val saacc1  = Account().Create(Map.empty + (2 ~> sten),0)
-    val ksacc1  = Account().Create(Map.empty + (3 ~> kim),9000)
-    val pmacc1  = Account().Create(Map.empty + (4 ~> paul),6000)
-    val ifacc1  = Account().Create(Map.empty ++ ISZ((5,peter), (6, sten), (7, CSK)),70000)
+    val peter : CardHolder = CardHolder().Create("Peter", "Granvej")
+    val paul : CardHolder = CardHolder().Create("Paul Mukherjee", "Rugaardsvej 47")
+    val sten : CardHolder = CardHolder().Create("Sten Agerholm", "Teisensvej ??")
+    val kim : CardHolder = CardHolder().Create("Kim Sunesen", "??")
+    val CSK : CardHolder = CardHolder().Create("CSK", "Forskerparken 10A")
+    val pglacc1 = Account().Create(Map.empty + (1 ~> peter), 5000)
+    val saacc1 = Account().Create(Map.empty + (2 ~> sten), 0)
+    val ksacc1 = Account().Create(Map.empty + (3 ~> kim), 9000)
+    val pmacc1 = Account().Create(Map.empty + (4 ~> paul), 6000)
+    val ifacc1 = Account().Create(Map.empty ++ ISZ((5, peter), (6, sten), (7, CSK)), 70000)
     val pglid1 = 1
     val said1 = 2
     val ksid1 = 3
@@ -52,6 +52,8 @@ import org.sireum.ops.ISZOps
     resource.AddAccount(pmid1, pmacc1)
     resource.AddAccount(ifid1, ifacc1)
     resource.AddLetterBox(clock, Letterbox())
+    tills = Map.empty ++ ISZ((1, Till(resource)), (2, Till(resource)), (3, Till(resource)))
+
     return this
   }
 }

@@ -1,7 +1,6 @@
 // #Sireum
 
-package CashDispenserPP
-
+package playground.CashDispenserPP
 import org.sireum._
 
 @msig trait Event {

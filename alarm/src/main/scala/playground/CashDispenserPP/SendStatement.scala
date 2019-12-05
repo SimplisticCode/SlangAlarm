@@ -1,7 +1,6 @@
 // #Sireum
 
-package CashDispenserPP
-
+package playground.CashDispenserPP
 import org.sireum._;
 
 @record
@@ -13,7 +12,7 @@ class SendStatement extends Event {
     return this
   }
 
-  def execute(sys: CashDispenserPP.System): B = {
+  def execute(sys: System): B = {
     val till: Till = sys.GetTill(tillid)
     if (till.CardValidated()) {
       till.RequestStatement()

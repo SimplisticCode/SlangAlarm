@@ -1,7 +1,6 @@
 // #Sireum
 
-package CashDispenserPP
-
+package playground.CashDispenserPP
 import org.sireum._;
 
 
@@ -14,7 +13,7 @@ class IllegalCard extends Event {
     return this
   }
 
-  def execute(sys: CashDispenserPP.System): B = {
+  def execute(sys: System): B = {
     sys.GetResource().AddIllegalCard(myCard)
     return T
   }

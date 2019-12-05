@@ -1,6 +1,6 @@
 // #Sireum
 
-package CashDispenserPP
+package playground.CashDispenserPP
 
 import org.sireum._
 
@@ -8,7 +8,7 @@ import org.sireum._
   var Address: String = ""
   var Name: String = ""
 
-  def Create(addr: String, n: String){
+  def Create(addr: String, n: String): CardHolder = {
     Address = addr
     Name = n
     return this

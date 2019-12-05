@@ -1,6 +1,6 @@
 // #Sireum
 
-package CashDispenserPP
+package playground.CashDispenserPP
 import org.sireum._
 
 @enum object Status {
@@ -9,7 +9,7 @@ import org.sireum._
   'Retained
 }
 
-@record class Till(val resource: CentralResource) {
+@record class Till(var resource: CentralResource) {
   var curCard: Option[Card] = None()
   var cardOk: B = F
   var retainedCards: Set[Card] = Set.empty;
@@ -60,7 +60,11 @@ import org.sireum._
     Contract(
       Requires(CardValidated())
     )
-    return resource.Withdrawal(curCard.get.GetAccountId(), curCard.get.GetCardId(), amount)
+    if(CardValidated()){
+      return resource.Withdrawal(curCard.get.GetAccountId(), curCard.get.GetCardId(), amount)
+    }else{
+      return F
+    }
   }
 
   def RequestStatement(): B = {

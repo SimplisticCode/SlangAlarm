@@ -1,6 +1,6 @@
 // #Sireum
 
-package CashDispenserPP
+package playground.CashDispenserPP
 import org.sireum._
 
 @record class Clock() {
