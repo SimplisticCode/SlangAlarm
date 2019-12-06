@@ -54,11 +54,7 @@ import playground.RuntimeUtils.MapUtil
 }
 
 @datatype class Score(team: Team.Type, won: Z, drawn: Z, lost: Z, points: Z) {
-  def invariant(): Unit = {
-    if (!(points == 3 * won + drawn)) {
-      halt("Invariant not satisfied")
-    }
-  }
+  @ spec def inv = Invariant(points == 3 * won + drawn)
 }
 
 @record class GroupPhase {
@@ -72,10 +68,8 @@ import playground.RuntimeUtils.MapUtil
     (GroupName.F,  sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.Germany, Team.Yugoslavia, Team.Iran, Team.UnitedStates)))),
     (GroupName.G,  sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.Rumania, Team.England, Team.Colombia, Team.Tunisia)))),
     (GroupName.H,  sc_init(SetUtil.CreateSetFromSeq(ISZ(Team.Argentina, Team.Croatia, Team.Jamaica, Team.Japan)))))
-  //inv forall gp in set rng gps &
-  //      (card gp = 4 and
-  //       forall sc in set gp & sc.won + sc.lost + sc.drawn <= 3)
 
+ @spec def inv = Invariant(All(gps.values)(gp => gp.size == 4 & All(gp.elements)(sc => sc.won + sc.lost + sc.drawn <= 3)))
 
   def sc_init (ts: Set[Team.Type]):Set[Score] ={
     var scores : Set[Score] = Set.empty

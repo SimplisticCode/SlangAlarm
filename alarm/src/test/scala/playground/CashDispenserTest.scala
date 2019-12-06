@@ -48,5 +48,4 @@ class CashDispenserTest extends FunSuite {
   }
 
 
-
 }

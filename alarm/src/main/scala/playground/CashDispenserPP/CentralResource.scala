@@ -1,6 +1,7 @@
 // #Sireum
 
 package playground.CashDispenserPP
+
 import org.sireum._
 
 @record class CentralResource(val Address: String, val Name: String) {
@@ -11,13 +12,10 @@ import org.sireum._
   var letterbox: Letterbox = Letterbox()
 
   val maxNumberOfTries: Z = 3
-/*
+
   @spec def inv = Invariant(
-    for (acc1 <- accounts.values) {
-      for (acc2 <- accounts.values) {
-        !acc1.GetCardIds().union(acc2.GetCardIds()).isEmpty()
-      }
-    })*/
+    All(accounts.values)(acc1 => All(accounts.values)(acc2 => acc1 != acc2 imply_: (acc1.GetCardIds().union(acc2.GetCardIds()).isEmpty)))
+  )
 
   def AddLetterBox(c: Clock, l: Letterbox): Unit = {
     clock = c
@@ -33,7 +31,7 @@ import org.sireum._
   }
 
   @pure def NumberOfTriesExceeded(cardId: Z): B = {
-   return numberOfTries.get(cardId).get >= maxNumberOfTries
+    return numberOfTries.get(cardId).get >= maxNumberOfTries
   }
 
   @pure def IncrNumberOfTries(cardId: Z): Unit = {

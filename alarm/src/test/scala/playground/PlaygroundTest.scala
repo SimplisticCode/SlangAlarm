@@ -35,7 +35,9 @@ class PlaygroundTest extends FunSuite{
       (p2, SetUtil.CreateSetFromSeq(ISZ(ex2, ex3))))
 
     val plant = Plant(Schedule(m), SetUtil.CreateSetFromSeq(ISZ(a1, a2)))
-
+    // when is expert on duty?
+    val expertsSchedule = Plant.ExpertIsOnDuty(ex1, plant)
+    println(s"${ex1} is on duty ${expertsSchedule}")
   }
 
 

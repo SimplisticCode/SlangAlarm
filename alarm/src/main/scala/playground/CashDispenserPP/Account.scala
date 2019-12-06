@@ -15,8 +15,6 @@ import org.sireum.ops.ISZOps
   var transactions: ISZ[Transaction] = ISZ()
 
 
-  //def ValidTransaction(transaction: Transaction): B = $
-
   @spec def transInv = Invariant(TransactionsInvariant(transactions))
 
   def Create(cs: Map[Z, CardHolder], b: Z): Account = {
