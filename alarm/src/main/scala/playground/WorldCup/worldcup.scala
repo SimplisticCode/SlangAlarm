@@ -54,7 +54,7 @@ import playground.RuntimeUtils.MapUtil
 }
 
 @datatype class Score(team: Team.Type, won: Z, drawn: Z, lost: Z, points: Z) {
-  @ spec def inv = Invariant(points == 3 * won + drawn)
+  @spec def inv = Invariant(points == 3 * won + drawn)
 }
 
 @record class GroupPhase {
@@ -72,25 +72,11 @@ import playground.RuntimeUtils.MapUtil
  @spec def inv = Invariant(All(gps.values)(gp => gp.size == 4 & All(gp.elements)(sc => sc.won + sc.lost + sc.drawn <= 3)))
 
   def sc_init (ts: Set[Team.Type]):Set[Score] ={
-    var scores : Set[Score] = Set.empty
-    for(t <- ts.elements) {
-      scores = scores + Score(t, 0, 0, 0, 0)
-    }
-    return scores
+    return Set.empty ++ ts.elements.map(t=> Score(t,0,0,0,0))
   }
 
   @pure def clear_winner(scs: Set[Score]): B = {
-    var maxScore: Z = 0
-    var numberWithSameMaxScore: Z = 0
-    for (sc <- scs.elements.map(score => score.points)) {
-      if (maxScore == sc) {
-        numberWithSameMaxScore = numberWithSameMaxScore + 1
-      } else if (maxScore < sc) {
-        maxScore = sc
-        numberWithSameMaxScore = 1
-      }
-    }
-    return (numberWithSameMaxScore == Z(1))
+    return Exists(scs.elements)(sc => All(scs.elements - sc)(sc1 => sc.t1.points > sc1.t1.points))
   }
 
 
@@ -130,7 +116,6 @@ import playground.RuntimeUtils.MapUtil
       }
     }
 
-
     var groupScore = gps.get(groupName).get
     gps = Map.empty ++ gps.entries.filter(o => o._1 != groupName)
     for(team <- groupScore.elements){
@@ -160,6 +145,9 @@ import playground.RuntimeUtils.MapUtil
       )
     )
     val scores = gps.get(gp).get
+    //Exists(scores.elements)(sc => All(scores.elements - sc)(sc1 => (sc.points > sc1.points) |
+    //(sc.points == sc1.points & sc.won > sc1.won)))
+    val clear = clear_winner(scores)
     var maxPoints : Z = 0
     for(score <- scores.elements){
       if(score.points > maxPoints){
@@ -196,7 +184,7 @@ import playground.RuntimeUtils.MapUtil
       }
     }
     val winners = scores.elements.filter(o => o.points == maxPoints)
-    if(Z(winners.size) == 1) {
+    if(Z(winners.size) === 1) {
       return winners.head.team
     }
     else{

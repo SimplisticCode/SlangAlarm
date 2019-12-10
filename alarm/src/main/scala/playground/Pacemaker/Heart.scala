@@ -28,7 +28,7 @@ import org.sireum._
   }
 
   def Periodic(tr: ISZ[Event.Type], e: Event.Type, p: Z): B = {
-    All(tr.indices.filter(t => (tr(t) == e) imply_:((t + p)<=tr.size)))(t => ((tr(t+p) == e) & All(for(i <- t until (t + p - 1)))() )
+    //All(tr.indices.filter(t => (tr(t) == e) imply_:((t + p)<=tr.size)))(t => ((tr(t+p) == e) & All(for(i <- t until (t + p - 1)))() )
     for (t <- tr.indices) {
       if (tr(t) == e) {
         if (t + p <= tr.size) {
